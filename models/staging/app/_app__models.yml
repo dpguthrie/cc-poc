@@ -1,0 +1,26 @@
+version: 2
+
+
+models:
+  - name: stg_app__movies
+    columns:
+      - name: movie_id
+        tests:
+          - unique
+          - not_null
+      - name: movie_rating
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 5
+  - name: stg_app__users
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
+      - name: user_type
+        tests:
+          - accepted_values:
+              values: ['New', 'Normal']
+              

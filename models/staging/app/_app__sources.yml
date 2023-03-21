@@ -1,0 +1,20 @@
+version: 2
+
+
+sources:
+  - name: app
+    schema: raw
+    database: DOUG_DEMO_V2
+    tables:
+      - name: movies
+        identifier: dbt_poc_raw_movies
+        columns:
+          - name: load_id
+            tests:
+              - not_null
+      - name: users
+        identifier: dbt_poc_raw_users
+        columns:
+          - name: load_id
+            tests:
+              - not_null

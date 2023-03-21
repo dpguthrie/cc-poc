@@ -1,0 +1,17 @@
+version: 2
+
+
+models:
+  - name: int_users_and_movies
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - user_id
+            - movie_id
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: movie_id
+        tests:
+          - not_null
