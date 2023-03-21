@@ -23,4 +23,3 @@ models:
         tests:
           - accepted_values:
               values: ['New', 'Normal']
-              

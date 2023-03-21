@@ -36,3 +36,4 @@ on-run-start:
 # using the `{{ config(...) }}` macro.
 models:
   cc_poc:
+    +materialized: table
