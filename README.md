@@ -108,3 +108,64 @@ Let's validate now that our incremental model contains all of the information th
     primary_key='user_id'
 ) }}
 ```
+
+Now let's validate that our downstream model was refreshed with the most up to date data.
+
+```sql
+{% set from_source %}
+    select
+        u.load_id,
+        u.user_id,
+        f.value as movie_id,
+        u.insertion_time,
+        u.update_time
+    from {{ ref('stg_app__users') }} u,
+    lateral flatten(input => u.movies) f
+{% endset %}
+
+{% set from_model %}
+    select *
+    from {{ ref('int_users_and_movies') }}
+{% endset %}
+
+{{ audit_helper.compare_queries(
+    a_query=from_source,
+    b_query=from_model,
+    primary_key='user_id'
+) }}
+```
+
+Finally, let's validate that our intermediate table contains all of the updated movies from our most recent load:
+
+```sql
+{% set from_source %}
+    with cte as (
+        select
+            u.load_id,
+            u.user_id,
+            f.value as movie_id,
+            u.insertion_time,
+            u.update_time
+        from {{ ref('stg_app__users') }} u,
+        lateral flatten(input => u.movies) f
+        where u.load_id = 2
+    )
+
+    select count(*)
+    from cte
+
+{% endset %}
+
+{% set from_model %}
+    select count(*)
+    from {{ ref('int_users_and_movies') }}
+    where load_id = 2
+{% endset %}
+
+{{ audit_helper.compare_queries(
+    a_query=from_source,
+    b_query=from_model,
+    primary_key='user_id'
+) }}
+```
+
