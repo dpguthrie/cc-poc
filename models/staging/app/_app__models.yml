@@ -23,3 +23,7 @@ models:
         tests:
           - accepted_values:
               values: ['New', 'Normal']
+      - name: email
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "like '%_@__%.__%'"

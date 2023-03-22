@@ -1,3 +1,5 @@
+{{ config(materialized='incremental', unique_key='user_id') }}
+
 with
 
 source as (
@@ -21,11 +23,17 @@ unpacked as (
         -- calculated fields
         FALSE as is_premium,
         -- put in get_ip_number here
-        
+
         -- timestamps
-        current_timestamp as insertion_time,
-        current_timestamp as update_time
+        raw:INSERTION_TIME::timestamp_ntz as insertion_time,
+        raw:UPDATE_TIME::timestamp_ntz as update_time
+
     from source
+    {% if is_incremental() %}
+
+    where update_time > (select max(update_time) from {{ this }})
+
+    {% endif %}
 )
 
 select * from unpacked
