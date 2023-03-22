@@ -44,7 +44,7 @@ Run the following macro to create an "updated" set of rows in the users table.
 dbt run-operation create_update_data
 ```
 
-Again, modify the database and schema with arguments:
+Again, you modify the database and schema with arguments:
 
 ```bash
 dbt run-operation create_update_data  --args '{database: foo, schema: bar}'
