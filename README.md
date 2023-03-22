@@ -1,4 +1,4 @@
-Welcome to the PoC!
+# Welcome to the PoC!
 
 Follow the steps below to begin to check off the identified criteria
 
@@ -35,6 +35,12 @@ This step will do the following:
   - Ensure email is a valid email address
   - Movie rating between 0 and 5
   - User type is one of `New` or `Normal`
+
+| This                 | Original                |
+|----------------------|-------------------------|
+| stg_app__users       | dbt_poc_users_final     |
+| stg_app__movies      | dbt_poc_movies_final    |
+| int_users_and_movies | dbt_poc_users_to_movies |
 
 3. Simple Update
 
